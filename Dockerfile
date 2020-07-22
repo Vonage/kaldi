@@ -7,7 +7,7 @@ RUN apt-get update && \
         make \
         automake \
         autoconf \
-#         bzip2 \
+        bzip2 \
         unzip \
         wget \
         sox \
@@ -18,9 +18,9 @@ RUN apt-get update && \
         python3 \
         zlib1g-dev \
         ca-certificates \
-#         gfortran \
+        gfortran \
         patch \
-#         ffmpeg \
+        ffmpeg \
         libatlas3-base \
         libboost-all-dev \
 	    vim && \
