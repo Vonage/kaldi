@@ -47,21 +47,3 @@ RUN cd /opt/kaldi/src && \
     # make
     make depend -j $(nproc) && \
     make -j $(nproc)
-
-ENV KALDI_PATH=/opt/kaldi/src
-
-# cleanup kaldi
-RUN cd /opt/kaldi && git log -n1 > current_kaldi_version.txt && \
-    rm -rf /opt/kaldi/.git && \
-    rm -rf /opt/kaldi/egs/ /opt/kaldi/windows/ /opt/kaldi/misc/ && \
-    find /opt/kaldi/src/ \
-	 -type f \
-	 -not -name '*.h' \
-	 -not -name '*.so' \
-	 -delete && \
-    find /opt/kaldi/tools/ \
-	 -type f \
-	 -not -name '*.h' \
-	 -not -name '*.so' \
-	 -not -name '*.so*' \
-	 -delete
