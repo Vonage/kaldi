@@ -171,12 +171,21 @@ void MessageLogger::HandleMessage(const LogMessageEnvelope &envelope,
     // Otherwise, we use the default Kaldi logging.
     // Build the log-message 'header',
     std::stringstream header;
+
+    char datetime_buf[20];
+    struct tm *sTm;
+    time_t now = time (0);
+    sTm = gmtime (&now);
+    strftime(datetime_buf, sizeof(datetime_buf), "%Y-%m-%d %H:%M:%S", sTm);
+
+    header << datetime_buf << " ";
+
     if (envelope.severity > LogMessageEnvelope::kInfo) {
       header << "VLOG[" << envelope.severity << "] (";
     } else {
       switch (envelope.severity) {
         case LogMessageEnvelope::kInfo :
-          header << "LOG (";
+          header << "INFO (";
           break;
         case LogMessageEnvelope::kWarning :
           header << "WARNING (";
@@ -196,13 +205,11 @@ void MessageLogger::HandleMessage(const LogMessageEnvelope &envelope,
            << envelope.func << "():" << envelope.file << ':' << envelope.line
            << ")";
 
-    // Printing the message,
+    // Printing the message
     if (envelope.severity >= LogMessageEnvelope::kWarning) {
-      // VLOG, LOG, WARNING:
-      fprintf(stderr, "%s %s\n", header.str().c_str(), message);
+        fprintf(stdout, "%s %s\n", header.str().c_str(), message);
     } else {
-      // ERROR, ASSERT_FAILED (print with stack-trace):
-      fprintf(stderr, "%s %s\n\n%s\n", header.str().c_str(), message,
+        fprintf(stderr, "%s %s\n\n%s\n", header.str().c_str(), message,
               KaldiGetStackTrace().c_str());
     }
   }
