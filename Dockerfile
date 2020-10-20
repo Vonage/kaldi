@@ -35,7 +35,6 @@ RUN cd /opt/kaldi/tools && \
     # ./extras/install_mkl.sh
 
 RUN cd /opt/kaldi/tools && \
-    # make
     make -j $(nproc)
 
 RUN cd /opt/kaldi/tools && \
@@ -43,7 +42,5 @@ RUN cd /opt/kaldi/tools && \
 
 RUN cd /opt/kaldi/src && \
     ./configure --shared && \
-    # make depend && \
-    # make
     make depend -j $(nproc) && \
     make -j $(nproc)
